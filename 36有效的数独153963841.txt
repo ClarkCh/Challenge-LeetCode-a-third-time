@@ -1,0 +1,49 @@
+func isValidSudoku(board [][]byte) bool {
+	vali := make([]int, 58)
+	for _, v := range board {
+		vali = make([]int, 58)
+		for _, v2 := range v {
+			if v2 == 46 {
+				continue
+			}
+			if vali[v2] > 0 {
+				return false
+			}
+			vali[v2]++
+		}
+	}
+	for i := 0; i < 9; i++ {
+		vali = make([]int, 58)
+		for j := 0; j < 9; j++ {
+			temporary := board[j][i]
+			if temporary == 46 {
+				continue
+			}
+			if vali[temporary] > 0 {
+				return false
+			}
+			vali[temporary]++
+		}
+	}
+	helperList := [][]int{{0, 0}, {0, 1}, {0, 2}, {1, 0},
+		{1, 1}, {1, 2}, {2, 0}, {2, 1}, {2, 2}}
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 3; j++ {
+			vali = make([]int, 58)
+			for _, v := range helperList {
+				temporary := board[3*i+v[0]][3*j+v[1]]
+				if temporary == 46 {
+					continue
+				}
+				if vali[temporary] > 0 {
+					return false
+				}
+				vali[temporary]++
+			}
+		}
+	}
+	return true
+}
+
+//runtime:4 ms
+//memory:6.1 MB
