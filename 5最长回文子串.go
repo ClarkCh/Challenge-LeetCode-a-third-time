@@ -1,17 +1,81 @@
 // +ignore
 package main
 
-func main() {
-}
+import "fmt"
 
+func main() {
+	fmt.Println(longestPalindrome("xabbcbbay"))
+	fmt.Println(longestPalindrome("bb"))
+}
 //leetcode submit region begin(Prohibit modification and deletion)
 func longestPalindrome(s string) string {
+	size := len(s)
+	if size < 2 {
+		return s
+	}
+	b := make([]byte, 1, 2 * size - 1)
+	b[0] = 35
+	for _, v := range s {
+		b = append(b, byte(v))
+		b = append(b, 35)
+	}
+	s2 := string(b)
+	dp := make([]int, 2 * size + 1)
+	center := 1
+	right := 2
+	size2 := len(dp)
+	dp[1] = 1
+	//right]
+	for i := 2; i < size2; i++ {
+		if i <= right {
+			dp[i] = dp[2*center-i]
+			//if dp[i] + i < right {
+			//
+			//}
+			if i + dp[i] >= right {
+				dp[i] = right - i
+				center = i
+				//right++
+				left := 2 * i - right
+				for left > 0 && right + 1 < size2 && s2[left-1] == s2[right+1] {
+					right++
+					left--
+					dp[i]++
+				}
 
+			}
+		}else {
+			center = i
+			right = i
+			left := i
+			for left > 0 && right + 1 < size2 && s2[left-1] == s2[right+1] {
+				right++
+				left--
+				dp[i]++
+			}
+		}
+	}
+	res := 0
+	rec := 0
+	for i, v := range dp {
+		if v > res {
+			res = v
+			rec = i
+		}
+	}
+
+	ret := make([]byte, 0)
+	for i, v := range string(s2[rec-res:rec+res+1]) {
+		if i & 1 == 1 {
+			ret = append(ret, byte(v))
+		}
+	}
+	return string(ret)
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
 
-// 2021-03-05 15:59:17
+// 2021-03-05 23:17:06
 //给你一个字符串 s，找到 s 中最长的回文子串。 
 //
 // 
@@ -54,6 +118,4 @@ func longestPalindrome(s string) string {
 // s 仅由数字和英文字母（大写和/或小写）组成 
 // 
 // Related Topics 字符串 动态规划 
-// 👍 3284 👎 0
-
-
+// 👍 3287 👎 0
