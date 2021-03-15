@@ -2,11 +2,55 @@
 package main
 
 func main() {
+	//fmt.Println(".Q"[0])
+	//fmt.Println(".Q"[1])
 }
 
 //leetcode submit region begin(Prohibit modification and deletion)
-func solveNQueens(n int) [][]string {
+func dfs(res *[][]string, rec [][]byte, cols, pie, la []bool, cnt, n, delta int) {
+	if cnt >= n {
+		tmp := make([]string, len(rec))
+		for i := range tmp {
+			tmp[i] = string(rec[i])
+		}
+		*res = append(*res, tmp)
+	}
+	for i := 0; i < n; i++ {
+		if cols[i] || pie[i+cnt] || la[i-cnt+delta] {
+			continue
+		}
+		cols[i] = true
+		pie[i+cnt] = true
+		la[i-cnt+delta] = true
+		rec[cnt][i] = 81
+		dfs(res, rec, cols, pie, la, cnt+1, n, delta)
+		rec[cnt][i] = 46
+		cols[i] = false
+		pie[i+cnt] = false
+		la[i-cnt+delta] = false
+	}
+}
 
+func solveNQueens(n int) [][]string {
+	if n == 0 {
+		return [][]string{}
+	}
+	cols := make([]bool, n)
+	pie := make([]bool, 2*n-1)
+	la := make([]bool, 2*n-1)
+	res := make([][]string, 0)
+	rec := make([][]byte, n)
+	for i := 0; i < n; i++ {
+		rec[i] = make([]byte, n)
+	}
+	for _, v := range rec {
+		for i := range v {
+			v[i] = 46
+		}
+	}
+	delta := n - 1
+	dfs(&res, rec, cols, pie, la, 0, n, delta)
+	return res
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
