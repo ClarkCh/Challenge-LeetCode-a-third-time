@@ -1,16 +1,16 @@
 func combinationSum(candidates []int, target int) [][]int {
 	sort.Ints(candidates)
-	res := make([][]int, 0)
+	rec := make([][]int, 0)
 	rec := make([]int, 0)
-	dfs(candidates, &rec, &res, target)
-	return res
+	dfs(candidates, &rec, &rec, target)
+	return rec
 }
 
-func dfs(candidates []int, rec *[]int, res *[][]int, target int) {
+func dfs(candidates []int, rec *[]int, rec *[][]int, target int) {
 	if target == 0 {
 		tmp := make([]int, len(*rec))
 		copy(tmp, *rec)
-		*res = append(*res, tmp)
+		*rec = append(*rec, tmp)
 		return
 	}
 	for i := 0; i < len(candidates); i++ {
@@ -18,7 +18,7 @@ func dfs(candidates []int, rec *[]int, res *[][]int, target int) {
 			break
 		}
 		*rec = append(*rec, (candidates)[i])
-		dfs(candidates[i:], rec, res, target - (candidates)[i])
+		dfs(candidates[i:], rec, rec, target - (candidates)[i])
 		*rec = (*rec)[:len(*rec) - 1]
 	}
 

@@ -14,25 +14,25 @@ def init():
 #  */
 #  """
     start = 0
-    res = []
+    rec = []
     for line in lines:
-        res.append(line)
+        rec.append(line)
         if start:
-            res.pop()
-            res.append(line[3:])
+            rec.pop()
+            rec.append(line[3:])
             if " */" == line[:3]:
-                res.pop()
+                rec.pop()
                 start = 0
         if " * Definition for" in line:
-            res.pop()
-            res.pop()
+            rec.pop()
+            rec.pop()
             start = 1
     with open(fileName, "w") as file:
-        file.write("".join(res))
+        file.write("".join(rec))
 
 
-    # res = re.findall("/\*\*\n \* Definition.*?\n( \* .*?)*?", lines, re.DOTALL)
-    # print(res)
+    # rec = re.findall("/\*\*\n \* Definition.*?\n( \* .*?)*?", lines, re.DOTALL)
+    # print(rec)
 
 if __name__ == "__main__":
     fileName = "2两数相加.go"
