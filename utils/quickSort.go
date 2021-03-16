@@ -25,7 +25,6 @@ func (self uint8Struct) Swap(i, j int) {
 
 func main() {
 	a := uint8Struct{3, 2, 4, 2, 8}
-	intslice
 	sort.Sort(a)
 	fmt.Println(a)
 }
