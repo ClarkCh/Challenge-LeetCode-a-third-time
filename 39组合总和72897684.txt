@@ -8,9 +8,9 @@ func combinationSum(candidates []int, target int) [][]int {
 
 func dfs(candidates []int, rec *[]int, rec *[][]int, target int) {
 	if target == 0 {
-		tmp := make([]int, len(*rec))
-		copy(tmp, *rec)
-		*rec = append(*rec, tmp)
+		pRoot := make([]int, len(*rec))
+		copy(pRoot, *rec)
+		*rec = append(*rec, pRoot)
 		return
 	}
 	for i := 0; i < len(candidates); i++ {
